@@ -7,6 +7,11 @@ export default class AddPlayer extends React.Component{
   handleSubmit(e){
     e.preventDefault();
     let playerName = e.target.playerName.value;
+
+    if (Players.find({name: playerName}).fetch().length !== 0) {
+      e.target.playerName.value = '';
+      return;
+    }
     if (playerName) {
       e.target.playerName.value = '';
       Players.insert({

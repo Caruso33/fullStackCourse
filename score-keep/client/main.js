@@ -10,12 +10,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { Meteor } from 'meteor/meteor';
 import {Tracker} from 'meteor/tracker';
 
 import {Players} from './../imports/api/players';
-import TitleBar from './../imports/ui/TitleBar';
-import AddPlayer from './../imports/ui/AddPlayer';
+import App from './../imports/ui/App';
 
 // const players = [{
 //   name: 'Tobi',
@@ -31,38 +31,16 @@ import AddPlayer from './../imports/ui/AddPlayer';
 //   _id: 3
 // }];
 
-const renderPlayers = (playersList) => {
-  return playersList.map((player) => {
-    return (
-      <p key={player._id}>
-        {player.name} has {player.score} point(s).
-        <button onClick={ () => {
-          Players.update({ _id: player._id },
-            { $inc: {score: 1} }
-          );
-        }}>+1</button>
-        <button onClick={() => {
-          Players.update({_id: player._id}, {
-            $inc: {score: -1}
-          });
-        }}>-1</button>
-          <button onClick={() => Players.remove({_id :player._id })}>X</button>
-        </p>
-    );
-  });
-}
-
 Meteor.startup(() => {
   Tracker.autorun(() => {
-    let players = Players.find().fetch();
+    let players = Players.find({}, {
+      sort: {
+        score: -1
+      }
+    }).fetch();
     let title = 'Score Keep';
-    var jsx = (
-      <div>
-        <TitleBar title={title} subtitle='Created by caruso33'/>
-        {renderPlayers(players)}
-        <AddPlayer />
-      </div>
-    );
-    ReactDOM.render(jsx, document.querySelector('#app'));
+
+    ReactDOM.render(<App title={title} players={players}/>,
+      document.querySelector('#app'));
   })
 });
