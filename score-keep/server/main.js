@@ -1,10 +1,6 @@
 // import utils from '../imports/utils.js';
-import {
-  Meteor
-} from 'meteor/meteor'
-import {
-  Players
-} from './../imports/api/players'
+import { Meteor } from 'meteor/meteor'
+import { Players } from './../imports/api/players'
 
 console.log('Log from /server/main.js');
 
@@ -82,4 +78,5 @@ Meteor.startup(() => {
   // // obj.printName();
   // setTimeout(obj.printName, 1000);
   // setTimeout(obj.printName.bind(obj), 1000);
+
 })
